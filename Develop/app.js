@@ -11,10 +11,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
 const employeeArr = [];
 
 const employeeInfo = () => {
@@ -24,7 +20,7 @@ inquirer.prompt([
     { //Role
         type: "list",
         name: "role",
-        message:"What is the employee's job title?",
+        message:"What is the Team Members job title?",
         choices: [
             "Manager",
             "Engineer",
@@ -34,56 +30,46 @@ inquirer.prompt([
     { //Name
         type: "input",
         name: "name",
-        message:"Please enter employee's full name."
+        message:"Please enter Team Members full name."
     },
 
     { //ID Number
         type: "input",
         name: "id",
-        message:"What is the employee's ID number?"
+        message:"What is the Team Members ID number?"
     },
 
     { //Email
         type: "input",
         name: "email",
-        message:"Please enter employee's email address."
+        message:"Please enter Team Members email address."
     },
     
-    
-
 ])
-.then(mainAnswers => {
-            const { role } = mainAnswers;
-
-            //SWITCH - evaluates an expression, matching the expression's value to a case clause, and executes 
-            //          statements associated with that case, as well as statements in cases that follow the matching case.
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
-
-            //BREAK - terminates the current switch statement and transfers program control 
-            //          to the statement following the terminated statement.
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break
+.then(roleAnswers => {
+            const { role } = roleAnswers;
 
         switch(role) {
 
-            //Manager Office Number
+            //Switch for Manager Office
             case "Manager":
-                roleSpecific(role, "officeNumber", "What is the Manager's office number?", mainAnswers);
+                roleSpecific(role, "officeNumber", "What is the Manager's office number?", roleAnswers);
             break;
 
-            //Engineer Github
+            //Switch for Engineers GitHub
             case "Engineer":
-                roleSpecific(role, "github", "What is the Engineer's Github profile username?", mainAnswers);
+                roleSpecific(role, "github", "What is the Engineer's Github profile username?", roleAnswers);
             break;
 
-            //Intern School
+            //Switch for Interns School Name
             case "Intern":
-                roleSpecific(role, "school", "Where does the Intern go to school?", mainAnswers);
+                roleSpecific(role, "school", "Where does the Intern go to school?", roleAnswers);
             break;
         }
     });
 }
-    //Questions for specific roles.
-const roleSpecific = (role, inputType, message, mainAnswers) => {
+    //Additional Questions for the specific employee's role
+const roleSpecific = (role, inputType, message, roleAnswers) => {
         inquirer.prompt ([
                 {
                     type: "input",
@@ -95,10 +81,11 @@ const roleSpecific = (role, inputType, message, mainAnswers) => {
         .then(answers => {
             let answer;
 
-            for (let key in answers) {
-                answer = answers[key];
+            //Use for...in statement to iterate over properties
+            for (let ansProp in answers) {
+                answer = answers[ansProp];
             }
-            const { name, id, email } = mainAnswers;
+            const { name, id, email } = roleAnswers;
             let employee;
             
             switch(role) {
@@ -125,13 +112,13 @@ const addEmployee = () => {
 
         {
             type: "confirm",
-            name: "addAnother",
-            message:"Would you like to add another employee?" 
+            name: "addTeamMember",
+            message:"Would you like to add another Team Member?" 
         }
     ])
                   
     .then(answer => {
-        if (answer.addAnother === true) {
+        if (answer.addTeamMember === true) {
             employeeInfo();
         }
         else {
@@ -147,7 +134,7 @@ const writeHTMLtoFile = (html) => {
         if (err) {
             return console.log(err);
          }
-         console.log ("Your team has thus been written.")
+         console.log ("So let it be written, so let it be done.")
     });
 };
 
