@@ -11,7 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
 
-const employeeArr = [];
+const teamArr = [];
 
 const employeeInfo = () => {
 
@@ -101,7 +101,7 @@ const roleSpecific = (role, inputType, message, roleAnswers) => {
                     employee = new Intern(name, id, email, answer);
                 break;
             }
-            employeeArr.push(employee);
+            teamArr.push(employee);
             addEmployee();
         });
 
@@ -122,7 +122,7 @@ const addEmployee = () => {
             employeeInfo();
         }
         else {
-            const html = render(employeeArr);
+            const html = render(teamArr);
             writeHTMLtoFile(html);
         }
     });
